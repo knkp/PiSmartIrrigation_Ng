@@ -22,9 +22,9 @@
 
 .view-config {
   position:fixed;
-  left:85vw;
+  left:80vw;
   top:78vh;
-  width:12vw;
+  width:20vw;
   height:18vh;
   z-index:100000;
 }

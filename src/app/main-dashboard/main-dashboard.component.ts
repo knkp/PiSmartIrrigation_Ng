@@ -5,6 +5,7 @@ import { SensorsService } from '../services/sensors/sensors.service';
 import { SensorDescription } from '../models/sensor-description';
 import { SensorData } from '../models/sensor-data';
 import { forkJoin, Observable, of, timer, interval, combineLatest } from 'rxjs';
+import { SensorList } from '../models/sensor-list';
 
 @Component({
   selector: 'app-main-dashboard',
@@ -15,53 +16,43 @@ export class MainDashboardComponent implements OnInit {
 
 	 displayHumidity = true;
 	 displaySunlight = true;
-
+   objectKeys = Object.keys;
    /** Based on the screen size, switch from standard to one column per row */
-   cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
-     map(({ matches }) => {
-       if (matches) {
-         return [
-           { type: 1, title: 'Phone Humidity 1', cols: 1, rows: 1 },
-           { type: 1, title: 'Phone Humidity 2', cols: 1, rows: 1 },
-           { type: 1, title: 'Phone Humidity 3', cols: 1, rows: 1 },
-           { type: 1, title: 'Phone Humidity 4', cols: 1, rows: 1 },
-           { type: 2, title: 'Sunlight Sensor', cols: 1, rows: 1 }
-         ];
-       }
- 
-       return [
-           { type: 1, title: 'Desktop Humidity 1', cols: 1, rows: 1 },
-           { type: 1, title: 'Desktop Humidity 2', cols: 1, rows: 1 },
-           { type: 1, title: 'Desktop Humidity 3', cols: 1, rows: 1 },
-           { type: 1, title: 'Desktop Humidity 4', cols: 1, rows: 1 },
-           { type: 2, title: 'Sunlight Sensor', cols: 1, rows: 1 }
-       ];
-     })
-   );
-  sensors: SensorDescription[];
-  sensorData: { id: number; source: Observable<SensorData>; }[];
-  getSensorData(sensorId: number): Observable<SensorData> {
+
+  sensorGroups: SensorList;
+  sensorData: { id: number; source: Observable<SensorData>[]; }[];
+  sensorGroupData: { [group: string]: Observable<SensorData>[] } = {};
+  getSensorData(sensorId: number): Observable<SensorData>[] {
     const r =  this.sensorData.find(d => d.id == sensorId);
     return r.source;
   }
+  getSensorGroupData(groupName: string): Observable<SensorData>[] {
+    return this.sensorGroupData[groupName];
+  }
 
-  retrieveSensorList(): Observable<SensorDescription[]>  {
+  retrieveSensorList(): Observable<SensorList>  {
     return this.sensorsService.getList();
   }
   retrieveSensorData(sensorId: number): Observable<SensorData>  {
-    return this.sensorsService.getSensorData(sensorId).pipe(map(sd => {
-      sd.data = sd.data.map(v => v + Math.random() * v / 5.0);
-      return sd;
-    }));
+    return this.sensorsService.getSensorData(sensorId);
   }
 
   constructor(private breakpointObserver: BreakpointObserver, private sensorsService: SensorsService) {}
 
 
   async ngOnInit() {
-    this.sensors = await this.retrieveSensorList().toPromise();
-    
-    this.sensorData = this.sensors.map(s => ({ id: s.id, source: timer(0, 1000).pipe(map(_ => this.retrieveSensorData(s.id)), flatMap(v => v)) }));
-    
+    this.sensorGroups = await this.retrieveSensorList().toPromise();
+    this.sensorData = [];
+    for (const sensorGroup in this.sensorGroups) {
+      if (this.sensorGroups.hasOwnProperty(sensorGroup)) {
+        const element = this.sensorGroups[sensorGroup];
+        // const groupO = element.map(s => (timer(0, 1000).pipe(map(_ => this.retrieveSensorData(s.id).pipe(map(d => d))), flatMap(v => v))));
+        const groupO = element.list.map(s => ({ id: s.id, source: [timer(0, 1000).pipe(map(_ => this.retrieveSensorData(s.id).pipe(map(d => d))), flatMap(v => v))] }));
+        groupO.forEach(g => this.sensorData.push(g));
+        this.sensorGroupData[sensorGroup] = groupO.map(g => g.source[0]);
+      }
+    }
+    // this.sensorData = this.sensors.map(s => ({ id: s.id, source: [timer(0, 1000).pipe(map(_ => this.retrieveSensorData(s.id).pipe(map(d => d))), flatMap(v => v))] }));
+
   }
 }

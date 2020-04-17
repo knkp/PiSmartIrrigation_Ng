@@ -1,22 +1,28 @@
 
-<!-- <mat-sidenav-container>
-  <mat-sidenav>Hello!</mat-sidenav>
-	<mat-sidenav-content>
-		<router-outlet></router-outlet>
-	</mat-sidenav-content>
-</mat-sidenav-container> -->
-
-<mat-drawer-container class="example-container">
-	<mat-drawer mode="side" opened> 
-		<section>
-			
+<mat-sidenav-container class="example-container">
+  <mat-sidenav opened mode="side">
+    <section>
 			<button mat-flat-button [routerLink]="[ '/' ]">Sensors</button>
 		</section>
 		<section>
 			<button mat-flat-button [routerLink]="[ '/settings' ]">Settings</button>
-		</section>		
+		</section>
+  </mat-sidenav>
+
+  <router-outlet></router-outlet>
+</mat-sidenav-container>
+
+<!-- <mat-drawer-container class="example-container">
+	<mat-drawer mode="side" opened>
+		<section>
+
+			<button mat-flat-button [routerLink]="[ '/' ]">Sensors</button>
+		</section>
+		<section>
+			<button mat-flat-button [routerLink]="[ '/settings' ]">Settings</button>
+		</section>
 	</mat-drawer>
-	<mat-drawer-content>		
+	<mat-drawer-content>
 		<router-outlet></router-outlet>
 	</mat-drawer-content>
-</mat-drawer-container>
+</mat-drawer-container> -->

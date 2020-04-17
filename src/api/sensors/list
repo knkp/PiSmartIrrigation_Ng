@@ -1,27 +1,30 @@
-[
-	{
-		"id": 1,
-		"name": "Humidity 1",
-		"type": "humidity"
-	}, 
-	{
-		"id": 2,
-		"name": "Humidity 2",
-		"type": "humidity"
-	}, 
-	{
-		"id": 3,
-		"name": "Humidity 3",
-		"type": "humidity"
-	},
-	{
-		"id": 4,
-		"name": "Humidity 4",
-		"type": "humidity"
-	},
-	{
-		"id": 5,
-		"name": "Sunlight",
-		"type": "sunlight"
-	}
-]
+{
+  "Humidity": {
+    "list": [
+      {
+        "id": 1,
+        "name": "Humidity 1"
+      },
+      {
+        "id": 2,
+        "name": "Humidity 2"
+      },
+      {
+        "id": 3,
+        "name": "Humidity 3"
+      },
+      {
+        "id": 4,
+        "name": "Humidity 4"
+      }
+    ]
+  },
+  "Sunlight": {
+    "list": [
+      {
+        "id": 5,
+        "name": "Sunlight"
+      }
+    ]
+  }
+}

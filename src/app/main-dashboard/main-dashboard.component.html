@@ -1,13 +1,24 @@
 <div class="grid-container">
-  
+
   <mat-card class="view-config">
     <mat-card-title>
       View Config
     </mat-card-title>
-    <mat-card-content>
-      <section *ngFor="let sensor of sensors">
+    <mat-card-content *ngIf="sensorGroups">
+      <ul *ngFor="let key of objectKeys(sensorGroups)">
+        <li>
+          <mat-checkbox [(ngModel)]="sensorGroups[key].show" class="view-checkbox">All {{key}}</mat-checkbox>
+          <ul >
+            <li *ngFor="let sensor of sensorGroups[key].list">
+              <mat-checkbox [(ngModel)]="sensor.show" class="view-checkbox">{{sensor.name}}</mat-checkbox>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- <section *ngFor="let sensor of sensorGroups">
         <mat-checkbox [(ngModel)]="sensor.show" class="view-checkbox">{{sensor.name}}</mat-checkbox>
-      </section>
+      </section> -->
       <!-- <section>
         <mat-checkbox [(ngModel)]="displaySunlight" class="view-checkbox">Display Sunlight </mat-checkbox>
       </section> -->
@@ -17,30 +28,51 @@
   <!-- Sensor Grid -->
 	<h1 class="mat-h1">Sensors Dashboard</h1>
   <mat-grid-list cols="2" rowHeight="520px">
-		<div *ngFor="let sensor of sensors">
-			
-			<mat-grid-tile [colspan]="1" [rowspan]="1" *ngIf="sensor.show">
-				<mat-card class="dashboard-card">
-					<mat-card-header>
-						<mat-card-title>
-							{{sensor.name}}
-							<button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-								<mat-icon>more_vert</mat-icon>
-							</button>
-							<mat-menu #menu="matMenu" xPosition="before">
-								<button mat-menu-item>Expand</button>
-								<button mat-menu-item>Remove</button>
-							</mat-menu>
-						</mat-card-title>
-					</mat-card-header>
-					<mat-card-content class="dashboard-card-content">
-						<div> 
-							<!-- {{getSensorData(sensor.id)}} -->
-							<app-line-chart [dataSource]="getSensorData(sensor.id)"></app-line-chart>
-						</div>          
-					</mat-card-content>
-				</mat-card>
-			</mat-grid-tile>
-		</div>
+    <div *ngFor="let key of objectKeys(sensorGroups)">
+      <mat-grid-tile [colspan]="1" [rowspan]="1" *ngIf="sensorGroups[key].show">
+        <mat-card class="dashboard-card">
+          <mat-card-header>
+            <mat-card-title>
+              {{key}}
+              <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu" xPosition="before">
+                <button mat-menu-item>Expand</button>
+                <button mat-menu-item>Remove</button>
+              </mat-menu>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="dashboard-card-content">
+            <div>
+              <app-line-chart [dataSources]="getSensorGroupData(key)"></app-line-chart>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      <div *ngFor="let sensor of sensorGroups[key].list">
+        <mat-grid-tile [colspan]="1" [rowspan]="1" *ngIf="sensor.show">
+          <mat-card class="dashboard-card">
+            <mat-card-header>
+              <mat-card-title>
+                {{sensor.name}}
+                <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" xPosition="before">
+                  <button mat-menu-item>Expand</button>
+                  <button mat-menu-item>Remove</button>
+                </mat-menu>
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="dashboard-card-content">
+              <div>
+                <app-line-chart [dataSources]="getSensorData(sensor.id)"></app-line-chart>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </mat-grid-tile>
+      </div>
+    </div>
   </mat-grid-list>
 </div>

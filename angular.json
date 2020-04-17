@@ -21,13 +21,13 @@
             "aot": true,
             "assets": [
               "src/favicon.ico",
-							"src/assets",
-							"src/api/sensors/list",
-							"src/api/sensors/1",
-							"src/api/sensors/2",
-							"src/api/sensors/3",
-							"src/api/sensors/4",
-							"src/api/sensors/5"
+              "src/assets",
+              "src/api/sensors/list",
+              "src/api/sensors/1",
+              "src/api/sensors/2",
+              "src/api/sensors/3",
+              "src/api/sensors/4",
+              "src/api/sensors/5"
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
@@ -133,5 +133,8 @@
       }
     }
   },
-  "defaultProject": "pi-smart-irrigation-frontend"
+  "defaultProject": "pi-smart-irrigation-frontend",
+  "cli": {
+    "analytics": "ccc907c2-16e3-4866-9431-9ab562922a24"
+  }
 }
