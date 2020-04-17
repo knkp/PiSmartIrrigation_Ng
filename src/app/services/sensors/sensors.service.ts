@@ -21,7 +21,7 @@ export class SensorsService {
             const element = l[key];
             element.show = true;
             element.list.forEach(s => {
-              s.show = true;
+              // s.show = element.list.length <= 1;
             });
           }
         }

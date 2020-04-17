@@ -1,11 +1,15 @@
-<div class="chart-wrapper" *ngIf="mappedLineChartData && mappedLineChartData.length > 0">
-	<canvas baseChart
-		[datasets]="mappedLineChartData"
-		[labels] ="lineChartLabels"
-		[options] = "lineChartOptions"
-		[colors] = "lineChartColors"
-		[legend] = "lineChartLegend"
-		[chartType] = "lineChartType"
-		[plugins] = "lineChartPlugins">
-	</canvas>
+<div
+  class="chart-wrapper"
+  *ngIf="mappedLineChartData && mappedLineChartData.length > 0"
+>
+  <canvas
+    baseChart
+    [datasets]="mappedLineChartData"
+    [labels]="lineChartLabels"
+    [options]="lineChartOptions"
+    [legend]="lineChartLegend"
+    [chartType]="lineChartType"
+    [colors]="lineChartColors"
+  >
+  </canvas>
 </div>
