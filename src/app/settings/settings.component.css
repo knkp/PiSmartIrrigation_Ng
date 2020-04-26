@@ -1,0 +1,43 @@
+
+.AnalogPin {
+    width:5vw;
+    height:10vh;
+}
+
+.Analog_Zero  {
+    grid-column:1;
+    /*background-color: black;*/
+}
+
+.Analog_Two {
+    grid-column:2;
+    /*background-color: blue;*/
+}
+
+.Analog_Three  {
+    grid-column:3;
+    /*background-color: red;*/
+}
+
+.Analog_Four {
+    grid-column:4;
+    /*background-color: green;*/
+}
+
+.DynamicItemsGrid {
+    /* grid layout stuff */
+    position:absolute;
+    margin-top:65vh;
+    display: grid;
+    grid-template-columns: 6vw 6vw 6vw 6vw;
+    margin-left:1vw;
+}
+
+.ArduinoShield {
+    position:relative;
+    max-width: 50vw;
+    height: 80vh;
+    background-image: url("/assets/img/ArduinoShield_cropped.png");
+    background-repeat: no-repeat;
+}
+
