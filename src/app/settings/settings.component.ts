@@ -9,6 +9,10 @@ export class SettingsComponent implements OnInit {
 
   constructor() { }
 
+  isHovered(pin: Number){
+    alert(pin);
+  }
+
   ngOnInit(): void {
   }
 
