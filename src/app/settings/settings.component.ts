@@ -7,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SettingsComponent implements OnInit {
 
-  constructor() { }
+  constructor() { this.SelectedPin = 0; }
+
+  SelectedPin: Number;
 
   isHovered(pin: Number){
-    alert(pin);
+    this.SelectedPin = pin;
   }
 
   ngOnInit(): void {
