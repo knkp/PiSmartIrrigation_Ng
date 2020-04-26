@@ -6,3 +6,12 @@
         <div (mouseover)="isHovered(0)" class="AnalogPin Analog_Four"></div>    
     </div>
 </div>
+
+
+<form class="example-form" style="margin-left:200px;">
+    <mat-form-field class="example-full-width">
+      <mat-label>Current Pin {{this.SelectedPin}}</mat-label>
+      <input [(ngModel)]="this.SelectedPin" matInput value="{{this.CurrentLabel}}">
+    </mat-form-field>
+  </form>
+  
