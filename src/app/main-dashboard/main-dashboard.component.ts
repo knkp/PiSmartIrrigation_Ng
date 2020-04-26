@@ -47,7 +47,7 @@ export class MainDashboardComponent implements OnInit {
       if (this.sensorGroups.hasOwnProperty(sensorGroup)) {
         const element = this.sensorGroups[sensorGroup];
         // const groupO = element.map(s => (timer(0, 1000).pipe(map(_ => this.retrieveSensorData(s.id).pipe(map(d => d))), flatMap(v => v))));
-        const groupO = element.list.map(s => ({ id: s.id, source: [timer(0, 10000).pipe(map(_ => this.retrieveSensorData(s.id).pipe(map(d => {
+        const groupO = element.list.map(s => ({ id: s.id, source: [timer(0, 3000).pipe(map(_ => this.retrieveSensorData(s.id).pipe(map(d => {
           d.data = d.data.map(v => Math.random() * v * 0.1 + v);
           return d;
         }))), flatMap(v => v))] }));
