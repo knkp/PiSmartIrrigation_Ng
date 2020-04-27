@@ -1,17 +1,41 @@
-<div class="ArduinoShield">
-    <div class="DynamicItemsGrid">
-        <div (mouseover)="isHovered(3)" class="AnalogPin Analog_Zero"></div>
-        <div (mouseover)="isHovered(2)" class="AnalogPin Analog_Two"></div>
-        <div (mouseover)="isHovered(1)" class="AnalogPin Analog_Three"></div>
-        <div (mouseover)="isHovered(0)" class="AnalogPin Analog_Four"></div>    
+<h1 style="margin-left:40vw;"> Pin Labels </h1>
+
+<mat-grid-list cols="2">
+  <mat-grid-tile>
+    <img src="assets/img/ArduinoShield_cropped.png"/>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <div>
+      <h3>Current Labels</h3>
+      <mat-form-field >
+        <mat-label>A0 Label</mat-label>
+        <input [disabled]="this.displayLabelUpdating" [ngModel]="this.LabelA0" matInput (ngModelChange)="A0labelUpdated($event)"  [ngModelOptions]="{standalone: true}">
+      </mat-form-field> <br>
+
+      <mat-form-field >
+        <mat-label>A1 Label</mat-label>
+        <input [disabled]="this.displayLabelUpdating" [ngModel]="this.LabelA1" matInput (ngModelChange)="A1labelUpdated($event)"  [ngModelOptions]="{standalone: true}">
+      </mat-form-field> <br>
+
+      <mat-form-field >
+        <mat-label>A2 Label</mat-label>
+        <input [disabled]="this.displayLabelUpdating" [ngModel]="this.LabelA2" matInput (ngModelChange)="A2labelUpdated($event)"  [ngModelOptions]="{standalone: true}">
+      </mat-form-field> <br>
+
+      <mat-form-field >
+        <mat-label>A3 Label</mat-label>
+        <input [disabled]="this.displayLabelUpdating" [ngModel]="this.LabelA3" matInput (ngModelChange)="A3labelUpdated($event)"  [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+
+      <br>
+      <button (click)="this.updateLabels()" mat-raised-button color="primary" [disabled]="!this.areChanges">Save Labels</button>
+      <br><br><br>
+      <mat-spinner *ngIf="this.displayLabelUpdating" diameter="50"></mat-spinner>
+      
     </div>
-</div>
+    
+  </mat-grid-tile>
+</mat-grid-list>
 
 
-<form class="example-form" style="margin-left:200px;">
-    <mat-form-field class="example-full-width">
-      <mat-label>Current Pin {{this.SelectedPin}}</mat-label>
-      <input [(ngModel)]="this.SelectedPin" matInput value="{{this.CurrentLabel}}">
-    </mat-form-field>
-  </form>
-  
+
