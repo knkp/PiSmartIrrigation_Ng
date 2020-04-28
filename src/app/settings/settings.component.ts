@@ -9,22 +9,21 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css']
 })
-export class SettingsComponent implements OnInit {
-  
+export class SettingsComponent implements OnInit {  
   sensorGroups: SensorList;
   areChanges: Boolean;
   displayLabelUpdating: Boolean;
 
   // pin labels
-  LabelA0: String;
-  LabelA1: String;
-  LabelA2: String;
-  LabelA3: String;
+  LabelA0: string;
+  LabelA1: string;
+  LabelA2: string;
+  LabelA3: string;
 
-  LabelA0_orig: String;
-  LabelA1_orig: String;
-  LabelA2_orig: String;
-  LabelA3_orig: String;
+  LabelA0_orig: string;
+  LabelA1_orig: string;
+  LabelA2_orig: string;
+  LabelA3_orig: string;
 
   A0HasChanged: Boolean;
   A1HasChanged: Boolean;
@@ -87,20 +86,50 @@ export class SettingsComponent implements OnInit {
                 this.displayLabelUpdating=false;
               }
 
-  
-
-  updateLabels(){
-    console.log(this.LabelA0);
-    console.log(this.LabelA1);
-    console.log(this.LabelA2);
-    console.log(this.LabelA3);
-    this.displayLabelUpdating = true;
-    this._snackbar.open('labels updated!', 'none', {
-      duration:2000
-    });
+  updateComplete(data: any){
+    this.currentValues(true);
   };
 
-  async currentValues(){
+  updateError(data: any){
+    this._snackbar.open('Error updating labels', 'none', {
+      duration:2000
+    });
+    // reset everything after error
+    this.displayLabelUpdating = false;
+    this.areChanges=false;
+  };
+
+  updateLabels(){
+    this.displayLabelUpdating = true;
+    
+    const update = [
+      {
+        id: 1,
+        name: this.LabelA0
+      },
+      {
+        id: 2,
+        name: this.LabelA1
+      },
+      {
+        id: 3,
+        name: this.LabelA2
+      },
+      {
+        id: 4,
+        name: this.LabelA3
+      }
+    ];
+
+    
+    this.sensorsService.postLabel(JSON.stringify(update)).subscribe({
+      next: data => this.updateComplete(data),
+      error: error => this.updateError(error)
+    });
+    
+  };
+
+  async currentValues(snackWhenComplete: Boolean){
     this.sensorGroups = await this.retrieveSensorList().toPromise();
     for(const sensorGroup in this.sensorGroups){
       if (this.sensorGroups.hasOwnProperty(sensorGroup)) {
@@ -127,10 +156,18 @@ export class SettingsComponent implements OnInit {
     this.LabelA1 = this.LabelA1_orig;
     this.LabelA2 = this.LabelA2_orig;
     this.LabelA3 = this.LabelA3_orig;
+
+    if(snackWhenComplete){
+      this._snackbar.open('labels updated!', 'none', {
+        duration:2000
+      });
+    }
+    this.displayLabelUpdating = false;
+    this.areChanges=false;
   }; 
 
   ngOnInit() {
-    this.currentValues();
+    this.currentValues(false);
   }
 
 }
